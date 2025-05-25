@@ -1,0 +1,73 @@
+---
+title: "Map Editor"
+description: "Edit and customize your maps visually with the 3DMapFi Map Editor."
+---
+
+The Map Editor is a powerful visual tool for creating, editing, and managing maps using 3DMapFi. Inspired by tools like Mapbox Studio, it provides an intuitive interface for both beginners and advanced users to design and configure maps without writing code.
+
+## Key Features
+
+- **Visual Layer Management**: Add, remove, and reorder layers with drag-and-drop.
+- **Style Customization**: Change colors, fonts, icons, and other style properties visually.
+- **Data Import**: Upload GeoJSON, CSV, or Shapefile data and visualize it instantly.
+- **Real-time Preview**: See your changes live as you edit styles or data.
+- **Expression Editor**: Build data-driven styles and expressions with a guided UI.
+- **3D Terrain and Effects**: Enable 3D terrain, hillshading, and atmospheric effects with a click.
+- **Export and Import**: Save your map styles as JSON, or import existing styles for further editing.
+- **Version History**: Track changes and revert to previous versions of your map.
+- **Collaboration**: Share your map projects with team members for collaborative editing.
+
+## Typical Workflow
+
+1. **Start a New Project**: Create a new map or open an existing one from your dashboard.
+2. **Add Data Sources**: Import your spatial data or connect to external sources.
+3. **Design Layers**: Add layers for points, lines, polygons, or raster data. Use the visual editor to adjust their appearance.
+4. **Customize Styles**: Use the style panel to tweak colors, labels, icons, and more.
+5. **Preview and Test**: Interact with your map in the live preview, test different zoom levels and projections.
+6. **Export or Publish**: Export your map style as JSON for use in your app, or publish it for sharing and collaboration.
+
+## Advanced Editing
+
+- **Custom Expressions**: Use the expression builder to create advanced, data-driven visualizations (e.g., color by population density).
+- **Interactive Elements**: Add popups, tooltips, and custom controls directly from the editor.
+- **Terrain and Globe Support**: Switch between 2D and 3D globe views, enable terrain exaggeration, and adjust atmospheric effects.
+- **Layer Filtering**: Filter features by attributes or spatial queries.
+- **Accessibility Tools**: Preview your map for color contrast and label readability.
+
+## Integration with 3DMapFi
+
+- **One-click Export**: Export your map style for direct use with the 3DMapFi API.
+- **Live Sync**: See changes reflected in your application instantly if connected.
+- **AI Assistance**: Use MapFi LLM within the editor for smart suggestions and code generation.
+
+## Example: Exporting a Custom Style
+
+After designing your map, click "Export" to download the style JSON:
+
+```json
+{
+  "version": 8,
+  "name": "My Custom Map",
+  "sources": { /* ... */ },
+  "layers": [ /* ... */ ]
+}
+```
+
+You can then use this style in your 3DMapFi application:
+
+```js
+const map = new Map({
+  container: 'map',
+  style: 'path/to/exported-style.json',
+  center: [0, 0],
+  zoom: 2
+});
+```
+
+## Tips
+
+- Use the version history to experiment without fear of losing work.
+- Collaborate with your team by sharing project links.
+- Combine Map Editor with MapFi LLM for AI-powered map design.
+
+> Coming soon: More advanced editing features, team collaboration, and plugin support!

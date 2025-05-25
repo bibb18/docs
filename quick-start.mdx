@@ -1,0 +1,151 @@
+---
+title: 'Quick Start'
+description: ''
+---
+
+
+Before you get started with 3DMapFi, you need to have a 3DMapFi access token and add mapfi to your project using either the CDN or the installation from github.
+
+## Setup your development
+
+### 1. Get your access token
+To get your access token, you need to request a demo on the [3DMapFi website](https://3dmapfi.xyz). After signing up, you can find your access token in the dashboard.
+### 2. Add 3dmapfi to your project
+
+You can add mapfi to your project using the CDN or by installing it from GitHub.
+#### Clone the repository
+```bash
+git clone https://github.com/3dmapfi/mapfi-gl.git
+```
+then install it into your project:
+```bash
+npm install <path-to-mapfi-gl>
+```
+
+### 3. Initialize mapfi
+After adding mapfi to your project, you can initialize it with your access token. Here’s a simple example of how to do this:
+
+```javascript
+import { MapFi } from '@3dmapfi/mapfi';
+const accessToken = process.env.MAPFI_ACCESS;
+const mapfi = new MapFi({ accessToken });
+
+await mapfi.init()
+// Now you can use mapfi to create a map
+const map = mapfi.createMap({
+  container: 'map', // The ID of the container element
+  style: 'https://3dmapfi.com/styles/3dmapfi.json', // The style URL
+  center: [0, 0], // Initial center [lng, lat]
+  zoom: 2 // Initial zoom level
+});
+```
+
+### 4. Add the map container to your React App or HTML file
+If you are using React, you can create a component for the map:
+
+```javascript
+import React, { useEffect } from 'react';
+import { MapFi } from '@3dmapfi/mapfi';
+const MapComponent = () => {
+  useEffect(() => {
+    const accessToken = process.env.MAPFI_ACCESS;
+    const mapfi = new MapFi({ accessToken });
+
+    mapfi.init().then(() => {
+      const map = mapfi.createMap({
+        container: 'map', // The ID of the container element
+        style: 'https://3dmapfi.com/styles/3dmapfi.json', // The style URL
+        center: [0, 0], // Initial center [lng, lat]
+        zoom: 2 // Initial zoom level
+      });
+    });
+  }, []);
+
+  return <div id="map" style={{ width: '100%', height: '500px' }}></div>;
+};
+export default MapComponent;
+```
+If you are using plain HTML, you can add the map container directly in your HTML file:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MapFi Example</title>
+  <script src="https://unpkg.com/@3dmapfi/mapfi/dist/mapfi.js"></script>
+</head>
+<body>
+  <div id="map" style="width: 100%; height: 500px;"></div>
+  <script>
+    const accessToken = 'YOUR_ACCESS_TOKEN';
+    mapfi.init({ accessToken }).then(() => {
+      const map = mapfi.createMap({
+        container: 'map', // The ID of the container element
+        style: 'https://3dmapfi.com/styles/3dmapfi.json', // The style URL
+        center: [0, 0], // Initial center [lng, lat]
+        zoom: 2 // Initial zoom level
+      });
+    });
+    </script>
+</body>
+</html>
+```
+### 5. Run your project
+To run your project, you can use a local development server. If you are using React, you can use `npm start` or `yarn start`. If you are using plain HTML, you can use a simple HTTP server like `http-server` or `live-server`.
+
+You can install `http-server` globally using npm:
+```bash
+npm install -g http-server
+```
+Then, navigate to your project directory and run:
+```bash
+http-server
+```
+
+This will start a local server, and you can open your browser to `http://localhost:8080` (or the port specified) to see your map in action. 
+
+
+## Transpiling and Bundling
+To build mapfi in your react project, you need to transpile and bundle it. You can use tools like Webpack or Rollup for this purpose. Here’s a simple example using Webpack:
+```javascript
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+module.exports = {
+  entry: './src/index.js',
+  output: {
+    filename: 'bundle.js',
+  },
+  resolve: {
+    extensions: ['.js', '.json'],
+    alias: {
+      '@3dmapfi/mapfi': path.resolve(__dirname, 'node_modules/@3dmapfi/mapfi')
+    }
+  },
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env']
+          }
+        }
+      }
+    ]
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: './src/index.html'
+    })
+  ],
+  devServer: {
+    contentBase: path.join(__dirname, 'dist'),
+    compress: true,
+    port: 9000
+  }
+};
+```

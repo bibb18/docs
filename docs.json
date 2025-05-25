@@ -12,18 +12,31 @@
     "groups": [
       {
         "group": "Get Started",
-        "pages": ["index", "quickstart", "development"]
+        "pages": ["index", "quick-start"]
       },
       {
-        "group": "Essentials",
+        "group": "Guides",
         "pages": [
-          "essentials/markdown",
-          "essentials/code",
-          "essentials/images",
-          "essentials/settings",
-          "essentials/navigation",
-          "essentials/reusable-snippets"
+          "guides/map-styles",
+          "guides/user-interaction",
+          "guides/global-and-atmosphere",
+          "guides/projection",
+          "guides/browser-compatibility"
         ]
+      },
+      {
+        "group": "API Reference",
+        "pages": [
+          "api-reference/map",
+          "api-reference/property",
+          "api-reference/control",
+          "api-reference/event",
+          "api-reference/geometry"
+        ]
+      },
+      {
+        "group": "Tools",
+        "pages": ["tools/map-editor", "tools/mapfi-llm"]
       }
     ]
   },

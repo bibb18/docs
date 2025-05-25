@@ -1,0 +1,155 @@
+---
+title: "User Interaction"
+description: "Learn how to handle user interactions such as clicks, hover, and controls in 3DMapFi."
+---
+
+3DMapFi provides a variety of ways for users to interact with your maps, including mouse and touch events, map controls, and custom interaction logic.
+
+## Map Events
+
+You can listen for user events such as clicks, mouse movement, and touch gestures.
+
+```js
+// Listen for a click event on the map
+map.on('click', (event) => {
+  console.log('Map clicked at:', event.lngLat);
+});
+
+// Listen for mouse move events
+map.on('mousemove', (event) => {
+  // Show coordinates or highlight features
+});
+```
+
+## Feature Interaction
+
+Interact with specific features on the map, such as highlighting or displaying popups.
+
+```js
+// Show a popup when a feature is clicked
+map.on('click', 'layer-id', (event) => {
+  const coordinates = event.features[0].geometry.coordinates;
+  new map.Popup()
+    .setLngLat(coordinates)
+    .setHTML('<strong>Feature Info</strong>')
+    .addTo(map);
+});
+```
+
+### Highlighting Features on Hover
+
+You can visually highlight features as users hover over them by updating layer paint properties.
+
+```js
+// Add a highlight layer
+map.addLayer({
+  id: 'highlight',
+  type: 'line',
+  source: 'your-source',
+  'source-layer': 'your-layer',
+  paint: {
+    'line-color': '#FFD700',
+    'line-width': 4
+  },
+  filter: ['==', 'id', ''] // Initially no feature is highlighted
+});
+
+// Update highlight on mousemove
+map.on('mousemove', 'your-layer', (event) => {
+  if (event.features.length > 0) {
+    map.setFilter('highlight', ['==', 'id', event.features[0].properties.id]);
+  }
+});
+
+// Reset highlight on mouseleave
+map.on('mouseleave', 'your-layer', () => {
+  map.setFilter('highlight', ['==', 'id', '']);
+});
+```
+
+## Map Controls
+
+Add built-in controls for navigation, zoom, fullscreen, and more.
+
+```js
+// Add navigation controls
+map.addControl(new map.NavigationControl());
+
+// Add fullscreen control
+map.addControl(new map.FullscreenControl());
+```
+
+### Geolocation Control
+
+Integrate geolocation to let users find their current position.
+
+```js
+// Add geolocate control
+map.addControl(new map.GeolocateControl({
+  positionOptions: { enableHighAccuracy: true },
+  trackUserLocation: true
+}));
+```
+
+## Custom Controls
+
+You can create your own controls to provide custom functionality.
+
+```js
+class CustomControl {
+  onAdd(map) {
+    this._container = document.createElement('div');
+    this._container.className = 'custom-control';
+    this._container.textContent = 'My Control';
+    this._container.onclick = () => alert('Custom control clicked!');
+    return this._container;
+  }
+  onRemove() {
+    this._container.parentNode.removeChild(this._container);
+  }
+}
+map.addControl(new CustomControl(), 'top-right');
+```
+
+## Tooltips and Popups
+
+Display information dynamically as users interact with features.
+
+```js
+// Show a tooltip on hover
+map.on('mousemove', 'layer-id', (event) => {
+  // Update tooltip position and content
+});
+```
+
+### Detailed Popup Example with API Integration
+
+You can fetch and display additional data from an API when a feature is clicked.
+
+```js
+map.on('click', 'layer-id', async (event) => {
+  const feature = event.features[0];
+  const coordinates = feature.geometry.coordinates;
+  // Fetch additional info from your API
+  const response = await fetch(`/api/feature-info?id=${feature.properties.id}`);
+  const data = await response.json();
+  new map.Popup()
+    .setLngLat(coordinates)
+    .setHTML(`<strong>${data.name}</strong><br>${data.description}`)
+    .addTo(map);
+});
+```
+
+## Touch and Mobile Interaction
+
+3DMapFi supports touch gestures such as pinch-to-zoom, rotate, and pan for mobile devices.
+
+### Customizing Touch Behavior
+
+You can enable or disable specific gestures for mobile or kiosk applications.
+
+```js
+// Disable map rotation and pitch on touch devices
+map.touchZoomRotate.disableRotation();
+map.dragRotate.disable();
+```

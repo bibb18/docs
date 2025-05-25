@@ -1,0 +1,107 @@
+---
+title: "Projection"
+description: "Understand and configure map projections in 3DMapFi."
+---
+
+3DMapFi supports multiple map projections to fit your application's requirements.
+
+## Supported Projections
+
+### Mercator
+
+The default projection, suitable for most web mapping applications. Preserves angles and shapes for small areas, but distorts size near the poles.
+
+### Globe
+
+A 3D globe view, ideal for global data visualization and immersive experiences.
+
+### Custom Projections
+
+You can define custom projections to match specific regional or scientific requirements. Refer to the API for supported custom projection parameters.
+
+## Changing the Projection
+
+You can set the projection when initializing the map or update it dynamically.
+
+### Setting Projection on Initialization
+
+You can specify the projection in the map constructor:
+
+```js
+const map = new Map({
+  container: 'map',
+  style: 'https://3dmapfi.xyz/styles/street.json',
+  projection: 'globe', // or 'mercator', or a custom projection object
+});
+```
+
+### Switching Projections Dynamically
+
+Switch projections at runtime to provide different perspectives:
+
+```js
+// Switch to Mercator
+map.setProjection('mercator');
+
+// Switch to a custom projection
+map.setProjection({
+  name: 'lambertConformalConic',
+  parallels: [33, 45],
+  centralMeridian: -96
+});
+```
+
+## Use Cases
+
+- **Mercator**: Navigation, city maps, and most web mapping.
+- **Globe**: Global data, flight paths, and educational tools.
+- **Custom**: Regional maps, scientific visualization, or specialized cartography.
+
+## Advanced Projection Features
+
+### Projection Transitions
+
+3DMapFi supports smooth animated transitions between projections for a seamless user experience.
+
+```js
+// Example: Animate transition to globe projection
+map.setProjection('globe', { animate: true });
+```
+
+### Projection-Specific Layer Adjustments
+
+Some layers may require adjustments or reconfiguration when switching projections. For example, symbol placement or label orientation may need to be updated for optimal readability.
+
+```js
+map.on('projectionchange', () => {
+  // Update layer properties or re-calculate data as needed
+});
+```
+
+### Combining Projections with Terrain
+
+You can use projections in combination with 3D terrain for enhanced visualization:
+
+```js
+map.setProjection('globe');
+map.setTerrain({ source: 'terrain-source', exaggeration: 2 });
+```
+
+## Troubleshooting
+
+- If features appear distorted or misplaced after changing projections, verify your data source and layer configurations.
+- Custom projections may require additional parameters; consult the API documentation for details.
+- Some projections may not support all map features (e.g., certain 3D effects).
+
+
+## Using Tools
+We recommend using the following tools to enhance your mapping experience:
+
+<CardGroup cols={1}>
+  <Card
+    title="Map LLM"
+    icon="brain"
+    href="/tools/mapfi-llm">
+    Leverage AI to generate and analyze map data with MapFi LLM.
+  </Card>
+</CardGroup>

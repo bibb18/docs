@@ -1,0 +1,102 @@
+---
+title: "Geometry"
+description: "API reference for geometry utilities in 3DMapFi."
+---
+
+Geometry utilities help you work with spatial data and features. 3DMapFi supports GeoJSON and provides helpers for geometry manipulation, measurement, and conversion.
+
+## Supported Geometry Types
+
+- **Point**
+- **LineString**
+- **Polygon**
+- **MultiPoint**
+- **MultiLineString**
+- **MultiPolygon**
+- **GeometryCollection**
+
+## Usage
+
+```js
+// Example: Creating a GeoJSON point
+const point = {
+  type: "Feature",
+  geometry: {
+    type: "Point",
+    coordinates: [105.85, 21.03]
+  },
+  properties: {}
+};
+
+// Add as a source
+map.addSource('point', { type: 'geojson', data: point });
+```
+
+### Creating Other Geometries
+
+```js
+// LineString
+const line = {
+  type: "Feature",
+  geometry: {
+    type: "LineString",
+    coordinates: [[105.85, 21.03], [105.9, 21.05]]
+  },
+  properties: {}
+};
+
+// Polygon
+const polygon = {
+  type: "Feature",
+  geometry: {
+    type: "Polygon",
+    coordinates: [[[105.8, 21.0], [105.9, 21.0], [105.9, 21.1], [105.8, 21.1], [105.8, 21.0]]]
+  },
+  properties: {}
+};
+```
+
+## Geometry Utilities
+
+- **Coordinate conversion:** Convert between coordinate systems or projections.
+- **Distance calculation:** Measure distance between points.
+- **Area calculation:** Compute the area of polygons.
+- **Centroid calculation:** Find the center of a geometry.
+- **Buffering:** Create buffer zones around features.
+- **Feature manipulation:** Merge, split, or simplify geometries.
+
+### Example: Calculating Distance
+
+```js
+import { distance } from '@3dmapfi/mapfi/geometry';
+
+const d = distance([105.85, 21.03], [105.9, 21.05]); // Returns distance in meters
+```
+
+### Example: Calculating Area
+
+```js
+import { area } from '@3dmapfi/mapfi/geometry';
+
+const a = area(polygon.geometry); // Returns area in square meters
+```
+
+### Example: Buffering a Point
+
+```js
+import { buffer } from '@3dmapfi/mapfi/geometry';
+
+const buffered = buffer(point.geometry, 100); // 100 meters buffer
+```
+
+## Working with Feature Collections
+
+```js
+const featureCollection = {
+  type: "FeatureCollection",
+  features: [point, line, polygon]
+};
+map.addSource('features', { type: 'geojson', data: featureCollection });
+```
+
+See also: [Map API](/api-reference/map)

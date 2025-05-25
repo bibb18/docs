@@ -1,0 +1,76 @@
+---
+title: "Property"
+description: "API reference for map properties in 3DMapFi."
+---
+
+Map properties define the state and configuration of your map instance. You can get and set these properties using the corresponding getter and setter methods.
+
+## Common Properties
+
+| Property      | Type           | Description                                      |
+|---------------|----------------|--------------------------------------------------|
+| `center`      | Array          | [longitude, latitude] of the map center          |
+| `zoom`        | Number         | Current zoom level                               |
+| `bearing`     | Number         | Map rotation in degrees                          |
+| `pitch`       | Number         | Map tilt in degrees                              |
+| `style`       | String/Object  | URL or object for the map style                  |
+| `projection`  | String/Object  | Current map projection                           |
+| `terrain`     | Object         | Terrain configuration (if enabled)               |
+| `loaded`      | Boolean        | Whether the map is fully loaded                  |
+| `maxZoom`     | Number         | Maximum allowed zoom level                       |
+| `minZoom`     | Number         | Minimum allowed zoom level                       |
+| `maxBounds`   | Array          | Map bounds [[west, south], [east, north]]        |
+| `interactive` | Boolean        | Whether user interaction is enabled              |
+| `container`   | HTMLElement    | The DOM element for rendering the map            |
+
+## Getters and Setters
+
+```js
+// Get current center
+const center = map.getCenter();
+
+// Set new center
+map.setCenter([105.85, 21.03]);
+
+// Get and set zoom
+const zoom = map.getZoom();
+map.setZoom(12);
+
+// Get and set bearing
+const bearing = map.getBearing();
+map.setBearing(45);
+
+// Get and set pitch
+const pitch = map.getPitch();
+map.setPitch(60);
+
+// Get and set style
+const style = map.getStyle();
+map.setStyle('https://3dmapfi.xyz/styles/dark.json');
+```
+
+## Advanced Properties
+
+- **maxBounds**: Restrict the map view to a given bounding box.
+- **interactive**: Enable or disable all user interaction.
+- **loaded**: Check if the map and all resources are fully loaded.
+
+```js
+map.setMaxBounds([[100, 10], [110, 20]]);
+map.setInteractive(false);
+if (map.loaded()) {
+  // Safe to perform operations
+}
+```
+
+## Property Events
+
+Some properties trigger events when changed, such as `move`, `zoom`, `rotate`, and `pitch`.
+
+```js
+map.on('move', () => {
+  // Respond to map movement
+});
+```
+
+See also: [Map API](/api-reference/map)

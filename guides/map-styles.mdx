@@ -1,0 +1,176 @@
+---
+title: "Map Styles"
+description: "Customize the appearance of your maps with various styles in 3DMapFi."
+---
+
+3DMapFi provides a range of styles to customize the appearance of your maps, allowing you to create visually appealing and informative representations of geographic data.
+Styles include layers, sources, and expressions that can be applied to different map elements.
+
+## Available Styles
+- **Satellite**: Aerial imagery with terrain and building details.
+- **Street**: Standard road map with streets, labels, and points of interest.
+- **Dark**: A dark-themed map suitable for night mode or low-light environments.
+- **Light**: A light-themed map for a clean and modern look.
+- **Custom**: Create your own style using 3DMapFi Editor or other tools.
+
+
+### Terrain Styles
+
+3DMapFi also supports terrain-enhanced styles, allowing you to visualize elevation, hillshading, and 3D terrain features. These can be combined with any base style for a more immersive experience.
+
+```js
+// Example: Enabling terrain
+map.setTerrain({
+  source: 'terrain-source',
+  exaggeration: 1.5
+});
+```
+
+## Applying Styles
+You can apply styles to your map during initialization or dynamically at runtime. Here’s how to set a style when creating a new map:
+
+```js
+const map = new Map({
+  container: 'map',
+  style: 'https://3dmapfi.xyz/styles/satellite.json', // URL to your style JSON
+  center: [longitude, latitude],
+  zoom: 10,
+});
+```
+You can also change the style of an existing map:
+
+```js
+map.setStyle('https://3dmapfi.xyz/styles/dark.json');
+```
+
+### Switching Styles Dynamically
+
+When switching styles at runtime, you may want to preserve certain layers or controls. Use event listeners to re-add custom layers or UI elements after the style loads.
+
+```js
+map.on('style.load', () => {
+  // Re-add custom layers or controls here
+});
+```
+
+## Customizing Styles
+You can customize existing styles or create new ones using the 3DMapFi Editor. This allows you to modify colors, fonts, and other visual elements to match your branding or design preferences.
+
+### Layer Types
+
+- **Fill**: For polygons such as parks, lakes, or land use.
+- **Line**: For roads, boundaries, and paths.
+- **Symbol**: For icons and text labels.
+- **Raster**: For satellite imagery or raster tiles.
+- **Circle**: For point data visualizations.
+- **Hillshade**: For terrain shading.
+
+### Expressions
+
+Expressions allow you to create data-driven styles. For example, you can color roads based on traffic data or population density.
+
+```json
+// Example: Data-driven line color
+"paint": {
+  "line-color": [
+    "interpolate",
+    ["linear"],
+    ["get", "traffic_density"],
+    0, "#00ff00",
+    100, "#ff0000"
+  ]
+}
+```
+
+## Style Editor
+The Style Editor provides a user-friendly interface to create and modify map styles. You can:
+- Add or remove layers
+- Adjust layer properties (e.g., color, opacity, visibility)
+- Create custom expressions for dynamic styling
+- Save and export your styles for use in your applications
+For more details on using the Style Editor, refer to the [Map Editor documentation](/tools/map-editor).
+
+### Importing and Exporting Styles
+
+You can import existing style JSON files into the Style Editor, or export your custom styles for use in other applications.
+
+## Example Style Configuration
+Here’s an example of a custom style configuration using the Style Editor:
+
+```json
+{
+  "version": 8,
+  "name": "Custom Style",
+  "sources": {
+    "openstreetmap": {
+      "type": "vector",
+      "url": "https://3dmapfi.xyz/sources/openstreetmap"
+    }
+  },
+  "layers": [
+    {
+      "id": "roads",
+      "type": "line",
+      "source": "openstreetmap",
+      "source-layer": "roads",
+      "layout": {
+        "line-cap": "round"
+      },
+      "paint": {
+        "line-color": "#ff0000",
+        "line-width": 2
+      }
+    }
+  ]
+}
+```
+This configuration defines a simple style with a red road layer sourced from OpenStreetMap. You can expand this by adding more layers and customizing their properties.
+
+## Tips and Best Practices
+
+- **Performance**: Limit the number of layers and sources for optimal performance.
+- **Branding**: Use custom fonts and colors to align maps with your brand.
+- **Accessibility**: Ensure sufficient contrast and readable labels for all users.
+- **Versioning**: Keep track of style versions for easier maintenance and updates.
+- **Testing**: Preview your styles on different devices and zoom levels.
+
+## Advanced Topics
+
+### Programmatic Style Manipulation
+
+You can add, remove, or update layers and sources at runtime using the map API:
+
+```js
+// Add a new layer
+map.addLayer({
+  id: 'custom-points',
+  type: 'circle',
+  source: 'points-source',
+  paint: {
+    'circle-radius': 6,
+    'circle-color': '#007cbf'
+  }
+});
+```
+
+### Using Third-Party Styles
+3DMapFi is compatible with most map style specifications. You can use styles from third-party providers or open-source repositories by referencing their style URLs.
+
+## Using Tools
+We provides tools to enhance your map styling experience:
+
+<CardGroup cols={2}>
+  <Card
+    title="Map Editor"
+    icon="palette"
+    href="/tools/map-editor"
+  >
+    Customize your map to your colors and brands
+  </Card>
+  <Card
+    title="Map LLM"
+    icon="brain"
+    href="/tools/mapfi-llm">
+    Leverage AI to generate and analyze map data with MapFi LLM.
+  </Card>
+</CardGroup>

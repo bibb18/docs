@@ -1,0 +1,268 @@
+---
+title: "Map"
+description: "API reference for the Map class in 3DMapFi."
+---
+
+The `Map` class is the core component for rendering and interacting with maps in 3DMapFi. It provides methods for controlling the map view, managing layers and sources, handling user interaction, and integrating with other 3DMapFi features.
+
+## Initialization
+
+Create a new map instance by specifying options such as container, style, center, zoom, and projection.
+
+```js
+const map = new Map({
+  container: 'map', // HTML element ID or element
+  style: 'https://3dmapfi.xyz/styles/street.json', // Style URL or object
+  center: [longitude, latitude], // Initial center [lng, lat]
+  zoom: 10, // Initial zoom level
+  projection: 'mercator', // Projection type
+  bearing: 0, // Optional: initial rotation
+  pitch: 0, // Optional: initial tilt
+  accessToken: 'YOUR_ACCESS_TOKEN' // Required for authenticated endpoints
+});
+```
+
+## Methods
+
+### setStyle
+
+Set the map's style at runtime. Accepts a style URL or style object.
+
+```js
+map.setStyle('https://3dmapfi.xyz/styles/dark.json');
+```
+
+- **Parameters:** `style` (string|object)
+- **Returns:** `void`
+- **Events:** Triggers `style.load` event.
+
+### setProjection
+
+Change the map projection.
+
+```js
+map.setProjection('globe');
+```
+
+- **Parameters:** `projection` (string|object)
+- **Returns:** `void`
+- **Events:** Triggers `projectionchange` event.
+
+### setAtmosphere
+
+Configure atmospheric effects such as fog, sky color, and sunlight.
+
+```js
+map.setAtmosphere({
+  fogColor: "#aabbcc",
+  fogDensity: 0.5,
+  skyColor: "#87ceeb",
+  sunPosition: [100, 200, 300],
+  sunIntensity: 1.0
+});
+```
+
+- **Parameters:** `options` (object)
+- **Returns:** `void`
+
+### setTerrain
+
+Enable and configure 3D terrain.
+
+```js
+map.setTerrain({
+  source: 'terrain-source',
+  exaggeration: 1.5
+});
+```
+
+- **Parameters:** `options` (object)
+- **Returns:** `void`
+
+### addLayer
+
+Add a new layer to the map. Layers control how data is rendered.
+
+```js
+map.addLayer({
+  id: 'custom-layer',
+  type: 'fill',
+  source: 'my-source',
+  paint: { 'fill-color': '#ff0000' }
+}, 'before-layer-id'); // Optional: insert before another layer
+```
+
+- **Parameters:** `layer` (object), `beforeId` (string, optional)
+- **Returns:** `void`
+
+### removeLayer
+
+Remove a layer by its ID.
+
+```js
+map.removeLayer('custom-layer');
+```
+
+- **Parameters:** `layerId` (string)
+- **Returns:** `void`
+
+### addSource
+
+Add a data source (GeoJSON, vector, raster, etc.).
+
+```js
+map.addSource('my-source', {
+  type: 'geojson',
+  data: geojsonData
+});
+```
+
+- **Parameters:** `id` (string), `source` (object)
+- **Returns:** `void`
+
+### removeSource
+
+Remove a source by its ID.
+
+```js
+map.removeSource('my-source');
+```
+
+- **Parameters:** `id` (string)
+- **Returns:** `void`
+
+### addControl
+
+Add a control (e.g., navigation, fullscreen, custom).
+
+```js
+map.addControl(new map.NavigationControl(), 'top-right');
+```
+
+- **Parameters:** `control` (object), `position` (string, optional)
+- **Returns:** `void`
+
+### on
+
+Listen for map or layer events.
+
+```js
+map.on('click', (event) => {
+  // Handle click event
+});
+```
+
+- **Parameters:** `event` (string), `layerId` (string, optional), `handler` (function)
+- **Returns:** `void`
+
+### off
+
+Remove an event listener.
+
+```js
+map.off('click', handler);
+```
+
+- **Parameters:** `event` (string), `handler` (function)
+- **Returns:** `void`
+
+### getCenter / setCenter
+
+Get or set the map center.
+
+```js
+const center = map.getCenter();
+map.setCenter([105.85, 21.03]);
+```
+
+### getZoom / setZoom
+
+Get or set the zoom level.
+
+```js
+const zoom = map.getZoom();
+map.setZoom(12);
+```
+
+### getBearing / setBearing
+
+Get or set the map bearing (rotation).
+
+```js
+const bearing = map.getBearing();
+map.setBearing(45);
+```
+
+### getPitch / setPitch
+
+Get or set the map pitch (tilt).
+
+```js
+const pitch = map.getPitch();
+map.setPitch(60);
+```
+
+### resize
+
+Resize the map when the container size changes.
+
+```js
+map.resize();
+```
+
+### flyTo
+
+Animate the map to a new location.
+
+```js
+map.flyTo({ center: [lng, lat], zoom: 8, speed: 1.2 });
+```
+
+### fitBounds
+
+Fit the map view to given bounds.
+
+```js
+map.fitBounds([[minLng, minLat], [maxLng, maxLat]]);
+```
+
+## Properties
+
+- `container`: The DOM element for rendering the map.
+- `style`: The current map style.
+- `center`: The current center coordinates.
+- `zoom`: The current zoom level.
+- `bearing`: The current rotation.
+- `pitch`: The current tilt.
+- `projection`: The current projection.
+- `loaded`: Boolean indicating if the map is fully loaded.
+
+## Events
+
+See [Event API](/api-reference/event) for a full list of supported events.
+
+## Examples
+
+```js
+// Add a GeoJSON source and a layer
+map.addSource('points', {
+  type: 'geojson',
+  data: {
+    type: 'FeatureCollection',
+    features: [{ type: 'Feature', geometry: { type: 'Point', coordinates: [0,0] }, properties: {} }]
+  }
+});
+map.addLayer({
+  id: 'points-layer',
+  type: 'circle',
+  source: 'points',
+  paint: { 'circle-radius': 6, 'circle-color': '#007cbf' }
+});
+```
+
+## See Also
+
+- [Property API](/api-reference/property)
+- [Control API](/api-reference/control)
+- [Event API](/api-reference/event)
+- [Geometry API](/api-reference/geometry)

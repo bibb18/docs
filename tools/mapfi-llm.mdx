@@ -1,0 +1,139 @@
+---
+title: "MapFi LLM"
+description: "Leverage AI to generate and analyze map data with MapFi LLM."
+---
+
+MapFi LLM is an AI-powered tool based on large language models (LLMs) such as ChatGPT and Gemini. It enables users to interact with and implement 3DMapFi applications more easily by leveraging natural language understanding and code generation.
+
+## What is MapFi LLM?
+
+MapFi LLM acts as your intelligent assistant for all things mapping. It can understand your requests in plain English, generate code snippets, automate workflows, and analyze spatial data, making map development and analysis faster and more accessible.
+
+## Roadmap 
+
+MapFi LLM is under active development. Planned features include:
+- Support for more data formats and sources
+- Enhanced context awareness (project-wide memory)
+- Visual prompt builder and guided suggestions
+- Integration with more third-party APIs (e.g., weather, demographics)
+
+
+## Key Capabilities
+
+- **Natural Language to Map Layers**: Describe the data or visualization you want, and MapFi LLM generates the corresponding map layers or configuration.
+- **Spatial Data Analysis**: Ask questions about your data (e.g., "Show me all schools within 5km of this point") and get instant results.
+- **Code Generation**: Get ready-to-use code snippets for common tasks, such as adding layers, styling maps, or handling user interaction.
+- **Workflow Automation**: Automate repetitive tasks like data import, style switching, or batch updates using AI-driven commands.
+- **Integration Guidance**: Get step-by-step instructions for integrating 3DMapFi into your application stack (React, Vue, plain JS, etc.).
+- **Documentation Search**: Ask questions about the 3DMapFi API and get instant, context-aware answers.
+
+## Example Use Cases
+
+- **Generate a heatmap layer from CSV data**  
+  "Create a heatmap of population density using my uploaded CSV file."
+- **Style customization**  
+  "Change all water bodies to blue and roads to yellow."
+- **Spatial queries**  
+  "Find all parks within 2km of my current location."
+- **Code assistance**  
+  "Show me how to add a custom control to the map."
+
+## Integration Example
+
+You can access MapFi LLM via the web interface or integrate it into your workflow using the API.
+
+```js
+// Example: Using MapFi LLM API to generate a map layer
+const response = await fetch('/api/mapfi-llm', {
+  method: 'POST',
+  body: JSON.stringify({
+    prompt: 'Add a 3D building layer to my map'
+  }),
+  headers: { 'Content-Type': 'application/json' }
+});
+const { code } = await response.json();
+// Use the generated code in your application
+eval(code);
+```
+
+## How MapFi LLM Works
+
+MapFi LLM leverages state-of-the-art large language models to interpret your requests, generate code, and provide actionable insights. It can:
+- Parse natural language prompts and map them to 3DMapFi API calls
+- Analyze your current map state and suggest improvements
+- Generate multi-step workflows for complex tasks
+- Integrate with your data sources and suggest visualizations
+
+## Advanced Integration Scenarios
+
+### 1. Automating Map Workflows
+
+You can use MapFi LLM to automate repetitive or complex workflows. For example, batch-adding layers, updating styles based on data changes, or generating reports from spatial queries.
+
+```js
+// Example: Automate adding multiple layers
+document.getElementById('run-llm').onclick = async () => {
+  const prompts = [
+    'Add a satellite imagery layer',
+    'Overlay a heatmap of traffic incidents',
+    'Highlight all schools in red'
+  ];
+  for (const prompt of prompts) {
+    const response = await fetch('/api/mapfi-llm', {
+      method: 'POST',
+      body: JSON.stringify({ prompt, conversationId }),
+      headers: { 'Content-Type': 'application/json' }
+    });
+    const { code } = await response.json();
+    eval(code);
+  }
+};
+```
+
+### 2. Conversational Map Editing
+
+MapFi LLM can maintain context across multiple prompts, allowing you to iteratively refine your map:
+
+- "Add a layer for bike lanes."
+- "Make the bike lanes blue and increase their width."
+- "Show only bike lanes in District 1."
+
+Each prompt builds on the previous state, making map editing more intuitive.
+
+### 3. Data-Driven Insights
+
+Ask MapFi LLM to analyze your data and suggest visualizations or insights:
+
+- "Which districts have the highest population density?"
+- "Show a chart of average traffic speed by hour."
+- "Suggest a color scheme for air quality levels."
+
+## Example: Maintaining Conversation Context
+
+To enable context-aware interactions, you can pass a `conversationId` with each API request. This allows MapFi LLM to remember previous prompts and responses, making multi-step workflows and iterative editing possible.
+
+```js
+// Example: Using conversationId for a contextual session
+let conversationId = null;
+
+async function sendPrompt(prompt) {
+  const response = await fetch('/api/mapfi-llm', {
+    method: 'POST',
+    body: JSON.stringify({ prompt, conversationId }),
+    headers: { 'Content-Type': 'application/json' }
+  });
+  const result = await response.json();
+  conversationId = result.conversationId || conversationId; // Save for next turn
+  eval(result.code); // Use the generated code
+}
+
+// Usage:
+await sendPrompt('Add a layer for bike lanes.');
+await sendPrompt('Make the bike lanes blue and increase their width.');
+```
+
+This approach ensures that each prompt builds on the previous context, enabling more natural and powerful map editing sessions.
+
+## Feedback
+
+If you have suggestions or want to report issues, please contact [support](mailto:3dmapfi@gmail.com) or open an issue on [GitHub](https://github.com/3dmapfi).

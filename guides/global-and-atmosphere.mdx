@@ -1,0 +1,114 @@
+---
+title: "Global and Atmosphere"
+description: "Learn how to configure global settings and atmospheric effects in 3DMapFi."
+---
+
+3DMapFi allows you to customize global settings and atmospheric effects to enhance the visual experience of your maps.
+
+## Global Settings
+
+You can configure global options such as projection, lighting, and rendering quality to suit your application's needs.
+
+### Projection
+
+Choose between different map projections (e.g., globe, flat, or custom projections) to best fit your data visualization.
+
+```js
+// Example: Setting the map projection
+map.setProjection('globe'); // Options: 'globe', 'flat', etc.
+```
+
+### Lighting
+
+Adjust lighting to control how objects and terrain are illuminated.
+
+```js
+// Example: Configuring lighting
+map.setLighting({
+  ambientIntensity: 0.6,
+  directionalIntensity: 1.2,
+  directionalColor: "#ffffff"
+});
+```
+
+### Rendering Quality
+
+Optimize performance or visual fidelity by tuning rendering quality.
+
+```js
+// Example: Setting rendering quality
+map.setRenderingQuality('high'); // Options: 'low', 'medium', 'high'
+```
+
+## Atmosphere Effects
+
+Atmospheric effects like fog, sky color, and sunlight can be adjusted to create realistic or stylized environments.
+
+### Fog
+
+Control the appearance and density of fog to simulate atmospheric depth.
+
+```js
+// Example: Setting fog options
+map.setAtmosphere({
+  fogColor: "#aabbcc",
+  fogDensity: 0.5
+});
+```
+
+### Sky Color
+
+Customize the sky color to match the desired mood or time of day.
+
+```js
+// Example: Setting sky color
+map.setAtmosphere({
+  skyColor: "#87ceeb"
+});
+```
+
+### Sunlight
+
+Adjust the sun's position and intensity for dynamic lighting effects.
+
+```js
+// Example: Setting sun position and intensity
+map.setAtmosphere({
+  sunPosition: [100, 200, 300],
+  sunIntensity: 1.0
+});
+```
+
+### Combining Options
+
+Atmosphere options can be combined in a single call:
+
+```js
+// Example: Combining atmosphere options
+map.setAtmosphere({
+  fogColor: "#ddeeff",
+  fogDensity: 0.3,
+  skyColor: "#b0e0e6",
+  sunPosition: [50, 150, 250],
+  sunIntensity: 0.8
+});
+```
+
+## Using Tools
+We provides tools to enhance your map styling experience:
+
+<CardGroup cols={2}>
+  <Card
+    title="Map Editor"
+    icon="palette"
+    href="/tools/map-editor"
+  >
+    Customize your map to your colors and brands
+  </Card>
+  <Card
+    title="Map LLM"
+    icon="brain"
+    href="/tools/mapfi-llm">
+    Leverage AI to generate and analyze map data with MapFi LLM.
+  </Card>
+</CardGroup>

@@ -1,0 +1,90 @@
+---
+title: "Event"
+description: "API reference for map and layer events in 3DMapFi."
+---
+
+Events allow you to respond to user actions, map changes, and data updates. You can listen for events on the map or on specific layers.
+
+## Common Map Events
+
+| Event             | Description                                    |
+|-------------------|------------------------------------------------|
+| `load`            | Map has finished loading                       |
+| `click`           | User clicks on the map                         |
+| `mousemove`       | Mouse moves over the map                       |
+| `moveend`         | Map movement ends                              |
+| `zoomend`         | Zooming ends                                   |
+| `style.load`      | Style has finished loading                     |
+| `projectionchange`| Projection has changed                         |
+| `resize`          | Map container has been resized                 |
+| `error`           | An error occurred                              |
+| `render`          | Map has rendered a frame                       |
+| `sourcedata`      | Source data has been loaded or changed         |
+
+## Usage
+
+```js
+// Listen for a map click
+map.on('click', (event) => {
+  // Handle click
+});
+
+// Listen for map movement end
+map.on('moveend', () => {
+  // Handle move end
+});
+
+// Listen for style load
+map.on('style.load', () => {
+  // Style is ready, add custom layers
+});
+```
+
+## Layer Events
+
+You can listen for events on specific layers, such as mouse enter/leave, click, and hover.
+
+```js
+map.on('mouseenter', 'layer-id', (event) => {
+  // Highlight feature
+});
+map.on('mouseleave', 'layer-id', () => {
+  // Remove highlight
+});
+map.on('click', 'layer-id', (event) => {
+  // Show popup
+});
+```
+
+## Event Object
+
+The event object passed to handlers contains useful properties:
+
+- `lngLat`: The longitude and latitude of the event
+- `features`: Array of features at the event location (for layer events)
+- `originalEvent`: The original DOM event
+
+## Removing Event Listeners
+
+Remove an event listener using `off`:
+
+```js
+function handleClick(event) { /* ... */ }
+map.on('click', handleClick);
+// Later...
+map.off('click', handleClick);
+```
+
+## Advanced Event Patterns
+
+- **One-time listeners:** Use `once` to listen for an event only once.
+  ```js
+  map.once('load', () => { /* ... */ });
+  ```
+- **Event delegation:** Listen for events on multiple layers by passing an array of layer IDs.
+
+## Event Flow
+
+Some events bubble from layers to the map. Handle events at the appropriate level for your use case.
+
+See also: [Map API](/api-reference/map)

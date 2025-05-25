@@ -1,0 +1,79 @@
+---
+title: "Control"
+description: "API reference for map controls in 3DMapFi."
+---
+
+Controls are UI elements that enhance map interaction. 3DMapFi provides several built-in controls and supports custom controls for advanced use cases.
+
+## Built-in Controls
+
+- **NavigationControl**: Zoom and rotate the map.
+- **FullscreenControl**: Toggle fullscreen mode.
+- **GeolocateControl**: Show user's current location.
+- **ScaleControl**: Display a scale bar.
+- **AttributionControl**: Show attribution information.
+
+## Usage
+
+```js
+// Add navigation control to the top-right
+map.addControl(new map.NavigationControl(), 'top-right');
+
+// Add fullscreen control to the bottom-left
+map.addControl(new map.FullscreenControl(), 'bottom-left');
+
+// Add geolocate control
+map.addControl(new map.GeolocateControl({
+  positionOptions: { enableHighAccuracy: true },
+  trackUserLocation: true
+}));
+
+// Add scale control
+map.addControl(new map.ScaleControl({ maxWidth: 100, unit: 'metric' }));
+```
+
+## Control Positions
+
+Controls can be positioned at:
+
+- `top-left`
+- `top-right`
+- `bottom-left`
+- `bottom-right`
+
+## Custom Controls
+
+You can create custom controls by implementing `onAdd` and `onRemove` methods. Custom controls can include any HTML content and logic.
+
+```js
+class MyControl {
+  onAdd(map) {
+    this._container = document.createElement('div');
+    this._container.className = 'my-control';
+    this._container.innerHTML = '<button>Click me</button>';
+    this._container.onclick = () => alert('Custom control clicked!');
+    return this._container;
+  }
+  onRemove() {
+    this._container.parentNode.removeChild(this._container);
+  }
+}
+map.addControl(new MyControl(), 'top-left');
+```
+
+## Removing Controls
+
+Remove a control by passing the control instance to `removeControl`.
+
+```js
+const nav = new map.NavigationControl();
+map.addControl(nav);
+map.removeControl(nav);
+```
+
+## Accessibility
+
+- Use semantic HTML and ARIA attributes in custom controls for accessibility.
+- Ensure controls are keyboard navigable.
+
+See also: [Map API](/api-reference/map)
